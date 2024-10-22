@@ -1,0 +1,53 @@
+[gd_scene load_steps=9 format=3 uid="uid://jfeth071anli"]
+
+[ext_resource type="PackedScene" uid="uid://dtm35tj4dhhp3" path="res://scenes/block.tscn" id="1_27kgt"]
+[ext_resource type="PackedScene" uid="uid://citqgmjpijw5e" path="res://scenes/player.tscn" id="2_xekbd"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_tgmtm"]
+size = Vector3(100, 0.5, 100)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xrbgb"]
+albedo_color = Color(0, 0.0975001, 0.65, 1)
+metallic = 1.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_b70ao"]
+material = SubResource("StandardMaterial3D_xrbgb")
+size = Vector3(100, 0.5, 100)
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_cm2j2"]
+sky_top_color = Color(0, 0.470157, 0.743152, 1)
+sky_horizon_color = Color(4.23551e-06, 0.899521, 0.93497, 1)
+sky_curve = 0.0294219
+ground_horizon_color = Color(0, 0.898039, 0.933333, 1)
+
+[sub_resource type="Sky" id="Sky_ehrvr"]
+sky_material = SubResource("ProceduralSkyMaterial_cm2j2")
+
+[sub_resource type="Environment" id="Environment_fvhyn"]
+background_mode = 2
+sky = SubResource("Sky_ehrvr")
+
+[node name="World" type="Node3D"]
+
+[node name="Floor" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+metadata/_edit_group_ = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
+shape = SubResource("BoxShape3D_tgmtm")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
+mesh = SubResource("BoxMesh_b70ao")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.224951, 0.97437, 0, -0.97437, 0.224951, 0, 10, 26)
+shadow_enabled = true
+
+[node name="Block" parent="." instance=ExtResource("1_27kgt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.96239, 7.35366, -3.51596)
+
+[node name="Player" parent="." instance=ExtResource("2_xekbd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.98277, 1.00452, -0.694579)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_fvhyn")
